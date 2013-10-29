@@ -27,20 +27,21 @@ class Notebook:
         '''Create a new note and add it to the list.'''
         self.notes.append(Note(memo, tags))
 
-    def modify_memo(self, note_id, memo):
-        '''Find a note with given id and change its memo to given value.'''
+    def _find_note(self, note_id):
+        '''Locate the note with the given id.'''
         for note in self.notes:
             if note.id == note_id:
-                note.memo = memo
-                break
+                return note
+        return None
+
+    def modify_memo(self, note_id, memo):
+        '''Find a note with given id and change its memo to given value.'''
+        self._find_note(note_id).memo = memo
 
     def modify_tags(self, note_id, tags):
         '''Find a note with given id and change its tags to given value.'''
-        for note in self.notes:
-            if note.id == note_id:
-                note.tags = tags
-                break
-
+        self._find_note(note_id).tags = tags
+        
     def search(self, filter):
         '''Find all notes that match the given filter string.'''
         return [note for note in self.notes if note.match(filter)]
